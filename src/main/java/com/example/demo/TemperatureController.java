@@ -5,21 +5,22 @@
  */
 package com.example.demo;
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-/**
- *
- * @author henk
- */
+
+@RestController
 public class TemperatureController {
-    @RequestMapping("/conversions/ktoc")
-    public CelsiusResponse getCelsius(String kelvin) {
-        return new CelsiusResponse(50);
+    @GetMapping("/conversions/ktoc")
+    public CelsiusResponse getCelsius(@RequestBody CelsiusRequest celsiusRequest) {
+        
+        return new CelsiusResponse(celsiusRequest.getKelvin() - 273.15);
     }
     
-    @RequestMapping("/conversions/ctok")
-    public KelvinResponse getKelvin(double celsius) {
-        return new KelvinResponse(100);
+    @GetMapping("/conversions/ctok")
+    public KelvinResponse getKelvin(@RequestBody KelvinRequest celsius) {
+        return new KelvinResponse(celsius.getCelsius() + 273.15);
     }
 }
 
@@ -46,5 +47,29 @@ class CelsiusResponse {
     
     public double getCelsius() {
         return celsius;
+    }
+}
+
+class CelsiusRequest {
+    private double kelvin;
+
+    public double getKelvin() {
+        return kelvin;
+    }
+
+    public void setKelvin(double kelvin) {
+        this.kelvin = kelvin;
+    }
+}
+
+class KelvinRequest {
+    private double celsius;
+    
+    public double getCelsius() {
+        return celsius;
+    }
+
+    public void setCelsius(double celsius) {
+        this.celsius = celsius;
     }
 }
