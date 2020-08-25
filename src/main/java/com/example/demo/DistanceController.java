@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class DistanceController {
+    @LogExecutionTime
     @GetMapping("/conversions/mtok")
     public KilometerResponse getMiles(@RequestBody KilometerRequest kilometerRequest) {
         return new KilometerResponse(kilometerRequest.getMiles() * 1.609);
     }
     
+    @LogExecutionTime
     @GetMapping("/conversions/ktom")
     public MilesResponse getKilometer(@RequestBody MilesRequest milesRequest) {
         return new MilesResponse(milesRequest.getKilometer() / 1.609);
